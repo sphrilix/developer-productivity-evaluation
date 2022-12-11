@@ -34,13 +34,6 @@ import static java.util.function.Predicate.not;
 
 public class Evaluation {
 
-    /**
-     * Your Task will to replace the method names which are represented by an arbitrary number of underscores with a
-     * name you think is appropriate.
-     * Please keep in mind that the underscores do not reflect the length of the method names just the number of the
-     * example in order to avoid naming conflicts and mark the method name that should be replaced.
-     */
-
     // #################################################################################################################
     // Example 1
     // #################################################################################################################
@@ -53,7 +46,7 @@ public class Evaluation {
     // Example 2
     // #################################################################################################################
 
-    public static <T> void __(T[] array, int idx, int idy) {
+    public static <T> void ___(T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
@@ -63,7 +56,7 @@ public class Evaluation {
     // Example 3
     // #################################################################################################################
 
-    public static double ___(double[] numbers) {
+    public static double ____(double[] numbers) {
         double sum = 0;
         for (double number : numbers) {
             sum += number;
@@ -75,7 +68,7 @@ public class Evaluation {
     // Example 4
     // #################################################################################################################
 
-    public static long ____(int n) {
+    public static long _____(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("number is negative");
         }
@@ -88,7 +81,7 @@ public class Evaluation {
     // Example 5
     // #################################################################################################################
 
-    public boolean _____(String text) {
+    public boolean ______(String text) {
         String clean = text.replaceAll("\\s+", "").toLowerCase();
         int length = clean.length();
         int forward = 0;
@@ -106,10 +99,10 @@ public class Evaluation {
     // Example 6
     // #################################################################################################################
 
-    public <T extends Comparable<T>> T[] ______(T[] array) {
+    public <T extends Comparable<T>> T[] _______(T[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = i; j > 0 && less(array[j], array[j - 1]); j--) {
-                __(array, j, j - 1);
+                ___(array, j, j - 1);
             }
         }
         return array;
@@ -123,7 +116,7 @@ public class Evaluation {
     // Example 7
     // #################################################################################################################
 
-    public static int _______(String s) {
+    public static int ________(String s) {
         if (s == null || s.length() == 0) {
             throw new NumberFormatException("null");
         }
@@ -147,7 +140,7 @@ public class Evaluation {
     // Example 8
     // #################################################################################################################
 
-    public String ________(String message, int shift) {
+    public String _________(String message, int shift) {
         StringBuilder encoded = new StringBuilder();
 
         shift %= 26;
@@ -181,7 +174,7 @@ public class Evaluation {
     // Example 9
     // #################################################################################################################
 
-    public static Optional<Node> _________(final Node node, final String name) {
+    public static Optional<Node> __________(final Node node, final String name) {
         if (node.getName().equals(name)) {
             return Optional.of(node);
         }
@@ -230,7 +223,7 @@ public class Evaluation {
     // Example 10
     // #################################################################################################################
 
-    public static <T extends Comparable<T>> int ___________(
+    public static <T extends Comparable<T>> int ____________(
             T[] array,
             int left,
             int right
@@ -246,7 +239,7 @@ public class Evaluation {
                 --right;
             }
             if (left <= right) {
-                __(array, left, right);
+                ___(array, left, right);
                 ++left;
                 --right;
             }
@@ -265,7 +258,7 @@ public class Evaluation {
             int right
     ) {
         if (left < right) {
-            int pivot = ___________(array, left, right);
+            int pivot = ____________(array, left, right);
             doSort(array, left, pivot - 1);
             doSort(array, pivot, right);
         }
@@ -275,7 +268,7 @@ public class Evaluation {
     // Example 11
     // #################################################################################################################
 
-    public Connection ___________(String url, String user, String password) {
+    public Connection ____________(String url, String user, String password) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -291,7 +284,7 @@ public class Evaluation {
     // Example 12
     // #################################################################################################################
 
-    public static List<String> ____________(String tokens) {
+    public static List<String> _____________(String tokens) {
         if (tokens == null) {
             return Collections.emptyList();
         }
@@ -317,7 +310,7 @@ public class Evaluation {
     // Example 13
     // #################################################################################################################
 
-    public static String _____________(String urlToRead) throws Exception {
+    public static String ______________(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlToRead);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -335,7 +328,7 @@ public class Evaluation {
     // Example 14
     // #################################################################################################################
 
-    public static void ______________(Session session, String toEmail, String subject, String body){
+    public static void _______________(Session session, String toEmail, String subject, String body){
         try
         {
             MimeMessage msg = new MimeMessage(session);
@@ -369,7 +362,7 @@ public class Evaluation {
     // Example 15
     // #################################################################################################################
 
-    public static String _______________(String url, String body) throws IOException, InterruptedException {
+    public static String ________________(String url, String body) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(30))
