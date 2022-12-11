@@ -1,6 +1,7 @@
 package de.uni_passau.fim.se2.developer_productivity;
 
 
+import javax.lang.model.element.Element;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -9,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -28,7 +30,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.stream.Stream;
-
 import static java.util.function.Predicate.not;
 
 public class Evaluation {
@@ -52,7 +53,7 @@ public class Evaluation {
     // Example 2
     // #################################################################################################################
 
-    static <T> void __(T[] array, int idx, int idy) {
+    public static <T> void __(T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
@@ -229,7 +230,7 @@ public class Evaluation {
     // Example 10
     // #################################################################################################################
 
-    private static <T extends Comparable<T>> int ___________(
+    public static <T extends Comparable<T>> int ___________(
             T[] array,
             int left,
             int right
