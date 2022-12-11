@@ -368,13 +368,13 @@ public class Evaluation {
     // Example 15
     // #################################################################################################################
 
-    public static String _______________(String url) throws IOException, InterruptedException {
+    public static String _______________(String url, String body) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(30))
                 .version(HttpClient.Version.HTTP_2)
                 .header("Content-Type", "text/plain")
-                .POST(HttpRequest.BodyPublishers.ofString("Hi there!"))
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
         var client = HttpClient.newHttpClient();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
