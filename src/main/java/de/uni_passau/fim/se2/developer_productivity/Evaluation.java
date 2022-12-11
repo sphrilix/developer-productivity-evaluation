@@ -1,34 +1,46 @@
 package de.uni_passau.fim.se2.developer_productivity;
 
 
+import de.uni_passau.fim.se2.developer_productivity.utils.SystemPropertyUtils;
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.ParseException;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static java.util.function.Predicate.not;
 
@@ -369,6 +381,58 @@ public class Evaluation {
     // Example 15
     // #################################################################################################################
 
+    public static URL[] getExtensionURLs() {
+        List<URL> urls = new ArrayList<>();
+        String home = SystemPropertyUtils.resolvePlaceholders("${spring.home:${SPRING_HOME:.}}");
+        File extDirectory = new File(new File(home, "lib"), "ext");
+        if (extDirectory.isDirectory()) {
+            for (File file : extDirectory.listFiles()) {
+                if (file.getName().endsWith(".jar")) {
+                    try {
+                        urls.add(file.toURI().toURL());
+                    }
+                    catch (MalformedURLException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+            }
+        }
+        return urls.toArray(new URL[0]);
+    }
+
+    // #################################################################################################################
+    // Example 16
+    // #################################################################################################################
+
+    public class DateTimeUtils {
+
+        private static final String[] patterns =
+                new String[] {"yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm z", "yyyy-MM-dd"};
+
+        public static Duration parseDuration(String text) {
+            Matcher m =
+                    Pattern.compile(
+                                    "\\s*(?:(\\d+)\\s*(?:days?|d))?"
+                                            + "\\s*(?:(\\d+)\\s*(?:hours?|hrs?|h))?"
+                                            + "\\s*(?:(\\d+)\\s*(?:minutes?|mins?|m))?"
+                                            + "\\s*(?:(\\d+)\\s*(?:seconds?|secs?|s))?"
+                                            + "\\s*",
+                                    Pattern.CASE_INSENSITIVE)
+                            .matcher(text);
+            if (!m.matches()) throw new IllegalArgumentException("Not valid duration: " + text);
+
+            int days = (m.start(1) == -1 ? 0 : Integer.parseInt(m.group(1)));
+            int hours = (m.start(2) == -1 ? 0 : Integer.parseInt(m.group(2)));
+            int mins = (m.start(3) == -1 ? 0 : Integer.parseInt(m.group(3)));
+            int secs = (m.start(4) == -1 ? 0 : Integer.parseInt(m.group(4)));
+            return Duration.ofSeconds((days * 86400) + (hours * 60L + mins) * 60L + secs);
+        }
+    }
+
+    // #################################################################################################################
+    // Example 17
+    // #################################################################################################################
+
     public static String postData(String url) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -382,5 +446,137 @@ public class Evaluation {
         return response.body();
     }
 
+    // #################################################################################################################
+    // Example 18
+    // #################################################################################################################
+    public class ZipReader {
+
+        public static String getJsonString(String path) throws IOException {
+
+            try(ZipFile file = new ZipFile(path)) {
+                final Enumeration<? extends ZipEntry> entries = file.entries();
+                while (entries.hasMoreElements()) {
+                    final ZipEntry entry = entries.nextElement();
+                    if (entry.getName().equals("project.json")) {
+                        InputStream is = file.getInputStream(entry);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        br.close();
+                        return sb.toString();
+                    }
+                }
+            }
+            return null;
+        }
+
+        /**
+         * A method returning the filename for a given filepath
+         *
+         * @param path the file path
+         * @return the filename
+         * @throws IOException
+         */
+        public static String getName(String path) throws IOException {
+            final ZipFile file = new ZipFile(path);
+            String name = file.getName();
+            file.close();
+            return name;
+        }
+    }
+
+    // #################################################################################################################
+    // Example 19
+    // #################################################################################################################
+
+    public static int indexOfDifference(String[] strs) {
+        if (strs == null || strs.length <= 1) {
+            return -1;
+        }
+        boolean anyStringNull = false;
+        boolean allStringsNull = true;
+        int arrayLen = strs.length;
+        int shortestStrLen = Integer.MAX_VALUE;
+        int longestStrLen = 0;
+
+        // find the min and max string lengths; this avoids checking to make
+        // sure we are not exceeding the length of the string each time through
+        // the bottom loop.
+        for (final String str : strs) {
+            if (str == null) {
+                anyStringNull = true;
+                shortestStrLen = 0;
+            } else {
+                allStringsNull = false;
+                shortestStrLen = Math.min(str.length(), shortestStrLen);
+                longestStrLen = Math.max(str.length(), longestStrLen);
+            }
+        }
+
+        // handle lists containing all nulls or all empty strings
+        if (allStringsNull || (longestStrLen == 0 && !anyStringNull)) {
+            return -1;
+        }
+
+        // handle lists containing some nulls or some empty strings
+        if (shortestStrLen == 0) {
+            return 0;
+        }
+
+        // find the position with the first difference across all strings
+        int firstDiff = -1;
+        for (int stringPos = 0; stringPos < shortestStrLen; stringPos++) {
+            char comparisonChar = strs[0].charAt(stringPos);
+            for (int arrayPos = 1; arrayPos < arrayLen; arrayPos++) {
+                if (strs[arrayPos].charAt(stringPos) != comparisonChar) {
+                    firstDiff = stringPos;
+                    break;
+                }
+            }
+            if (firstDiff != -1) {
+                break;
+            }
+        }
+
+        if (firstDiff == -1 && shortestStrLen != longestStrLen) {
+            // we compared all of the characters up to the length of the
+            // shortest string and didn't find a match, but the string lengths
+            // vary, so return the length of the shortest string.
+            return shortestStrLen;
+        }
+        return firstDiff;
+    }
+
+    // #################################################################################################################
+    // Example 20
+    // #################################################################################################################
+
+
+    public static <T> T drawRandomListElement(List<T> list, List<Integer> probabilities) {
+
+        if (probabilities == null || probabilities.size() <= 1 || probabilities.size() != list.size()) {
+            int index = ThreadLocalRandom.current().nextInt(0, list.size());
+            return list.get(index);
+        }
+
+
+        int totalProbabilityMass = probabilities.stream().reduce(Integer::sum).get();
+        int roll = ThreadLocalRandom.current().nextInt(1, totalProbabilityMass + 1);
+
+        int currentTotalChance = 0;
+        for (int i = 0; i < list.size(); i++) {
+            currentTotalChance += probabilities.get(i);
+
+            if (roll <= currentTotalChance) {
+                return list.get(i);
+            }
+        }
+
+
+        return list.get(0);
+    }
 }
 
