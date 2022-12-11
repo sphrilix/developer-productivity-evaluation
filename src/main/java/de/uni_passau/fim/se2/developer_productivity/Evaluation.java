@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +44,7 @@ public class Evaluation {
     // Example 1
     // #################################################################################################################
 
-    public static int getAbsValue(int number) {
+    public static int __(int number) {
         return number < 0 ? -number : number;
     }
 
@@ -53,7 +52,7 @@ public class Evaluation {
     // Example 2
     // #################################################################################################################
 
-    static <T> void swap(T[] array, int idx, int idy) {
+    static <T> void __(T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
@@ -63,7 +62,7 @@ public class Evaluation {
     // Example 3
     // #################################################################################################################
 
-    public static double average(double[] numbers) {
+    public static double ___(double[] numbers) {
         double sum = 0;
         for (double number : numbers) {
             sum += number;
@@ -75,7 +74,7 @@ public class Evaluation {
     // Example 4
     // #################################################################################################################
 
-    public static long factorial(int n) {
+    public static long ____(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("number is negative");
         }
@@ -88,7 +87,7 @@ public class Evaluation {
     // Example 5
     // #################################################################################################################
 
-    public boolean isPalindrome(String text) {
+    public boolean _____(String text) {
         String clean = text.replaceAll("\\s+", "").toLowerCase();
         int length = clean.length();
         int forward = 0;
@@ -106,10 +105,10 @@ public class Evaluation {
     // Example 6
     // #################################################################################################################
 
-    public <T extends Comparable<T>> T[] sort(T[] array) {
+    public <T extends Comparable<T>> T[] ______(T[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = i; j > 0 && less(array[j], array[j - 1]); j--) {
-                swap(array, j, j - 1);
+                __(array, j, j - 1);
             }
         }
         return array;
@@ -123,7 +122,7 @@ public class Evaluation {
     // Example 7
     // #################################################################################################################
 
-    public static int parseInt(String s) {
+    public static int _______(String s) {
         if (s == null || s.length() == 0) {
             throw new NumberFormatException("null");
         }
@@ -147,7 +146,7 @@ public class Evaluation {
     // Example 8
     // #################################################################################################################
 
-    public String encode(String message, int shift) {
+    public String ________(String message, int shift) {
         StringBuilder encoded = new StringBuilder();
 
         shift %= 26;
@@ -181,7 +180,7 @@ public class Evaluation {
     // Example 9
     // #################################################################################################################
 
-    public static Optional<Node> search(final Node node, final String name) {
+    public static Optional<Node> _________(final Node node, final String name) {
         if (node.getName().equals(name)) {
             return Optional.of(node);
         }
@@ -230,7 +229,7 @@ public class Evaluation {
     // Example 10
     // #################################################################################################################
 
-    private static <T extends Comparable<T>> int partition(
+    private static <T extends Comparable<T>> int ___________(
             T[] array,
             int left,
             int right
@@ -246,7 +245,7 @@ public class Evaluation {
                 --right;
             }
             if (left <= right) {
-                swap(array, left, right);
+                __(array, left, right);
                 ++left;
                 --right;
             }
@@ -275,7 +274,7 @@ public class Evaluation {
     // Example 11
     // #################################################################################################################
 
-    public Connection connect(String url, String user, String password) {
+    public Connection ___________(String url, String user, String password) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -291,7 +290,7 @@ public class Evaluation {
     // Example 12
     // #################################################################################################################
 
-    public static List<String> getSubTokensFrom(String tokens) {
+    public static List<String> ____________(String tokens) {
         if (tokens == null) {
             return Collections.emptyList();
         }
@@ -317,7 +316,7 @@ public class Evaluation {
     // Example 13
     // #################################################################################################################
 
-    public static String getHTML(String urlToRead) throws Exception {
+    public static String _____________(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlToRead);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -335,7 +334,7 @@ public class Evaluation {
     // Example 14
     // #################################################################################################################
 
-    public static void sendEmail(Session session, String toEmail, String subject, String body){
+    public static void ______________(Session session, String toEmail, String subject, String body){
         try
         {
             MimeMessage msg = new MimeMessage(session);
@@ -369,7 +368,7 @@ public class Evaluation {
     // Example 15
     // #################################################################################################################
 
-    public static String postData(String url) throws IOException, InterruptedException {
+    public static String _______________(String url) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(30))
