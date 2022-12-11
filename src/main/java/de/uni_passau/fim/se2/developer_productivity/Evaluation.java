@@ -264,7 +264,7 @@ public class Evaluation {
             int right
     ) {
         if (left < right) {
-            int pivot = partition(array, left, right);
+            int pivot = ___________(array, left, right);
             doSort(array, left, pivot - 1);
             doSort(array, pivot, right);
         }
