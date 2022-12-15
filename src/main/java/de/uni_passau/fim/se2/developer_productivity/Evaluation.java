@@ -3,7 +3,6 @@ package de.uni_passau.fim.se2.developer_productivity;
 
 import de.uni_passau.fim.se2.developer_productivity.utils.SystemPropertyUtils;
 
-import javax.lang.model.element.Element;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -14,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -51,7 +49,7 @@ public class Evaluation {
     // Example 1
     // #################################################################################################################
 
-    public static int __(int number) {
+    public static int getAmountOfNumber(int number) {
         return number < 0 ? -number : number;
     }
 
@@ -59,7 +57,7 @@ public class Evaluation {
     // Example 2
     // #################################################################################################################
 
-    public static <T> void ___(T[] array, int idx, int idy) {
+    public static <T> void swapItems (T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
@@ -69,7 +67,7 @@ public class Evaluation {
     // Example 3
     // #################################################################################################################
 
-    public static double ____(double[] numbers) {
+    public static double getAverage (double[] numbers) {
         double sum = 0;
         for (double number : numbers) {
             sum += number;
@@ -81,7 +79,7 @@ public class Evaluation {
     // Example 4
     // #################################################################################################################
 
-    public static long _____(int n) {
+    public static long getFactorial(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("number is negative");
         }
@@ -94,7 +92,7 @@ public class Evaluation {
     // Example 5
     // #################################################################################################################
 
-    public boolean ______(String text) {
+    public boolean isPalindrome (String text) {
         String clean = text.replaceAll("\\s+", "").toLowerCase();
         int length = clean.length();
         int forward = 0;
@@ -115,7 +113,7 @@ public class Evaluation {
     public <T extends Comparable<T>> T[] _______(T[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = i; j > 0 && less(array[j], array[j - 1]); j--) {
-                ___(array, j, j - 1);
+                swapItems(array, j, j - 1);
             }
         }
         return array;
@@ -129,7 +127,7 @@ public class Evaluation {
     // Example 7
     // #################################################################################################################
 
-    public static int ________(String s) {
+    public static int parseInt (String s) {
         if (s == null || s.length() == 0) {
             throw new NumberFormatException("null");
         }
@@ -153,7 +151,7 @@ public class Evaluation {
     // Example 8
     // #################################################################################################################
 
-    public String _________(String message, int shift) {
+    public String encode (String message, int shift) {
         StringBuilder encoded = new StringBuilder();
 
         shift %= 26;
@@ -252,7 +250,7 @@ public class Evaluation {
                 --right;
             }
             if (left <= right) {
-                ___(array, left, right);
+                swapItems(array, left, right);
                 ++left;
                 --right;
             }
@@ -281,7 +279,7 @@ public class Evaluation {
     // Example 11
     // #################################################################################################################
 
-    public Connection ____________(String url, String user, String password) {
+    public Connection getConnection (String url, String user, String password) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -341,7 +339,8 @@ public class Evaluation {
     // Example 14
     // #################################################################################################################
 
-    public static void _______________(Session session, String toEmail, String subject, String body){
+    public static void sendEmail (Session session, String toEmail,
+                                  String subject, String body){
         try
         {
             MimeMessage msg = new MimeMessage(session);
