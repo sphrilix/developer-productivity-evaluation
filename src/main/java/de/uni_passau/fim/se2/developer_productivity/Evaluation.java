@@ -3,7 +3,6 @@ package de.uni_passau.fim.se2.developer_productivity;
 
 import de.uni_passau.fim.se2.developer_productivity.utils.SystemPropertyUtils;
 
-import javax.lang.model.element.Element;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -14,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -51,7 +49,7 @@ public class Evaluation {
     // Example 1
     // #################################################################################################################
 
-    public static int __(int number) {
+    public static int abs(int number) {
         return number < 0 ? -number : number;
     }
 
@@ -59,7 +57,7 @@ public class Evaluation {
     // Example 2
     // #################################################################################################################
 
-    public static <T> void ___(T[] array, int idx, int idy) {
+    public static <T> void swap(T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
@@ -69,7 +67,7 @@ public class Evaluation {
     // Example 3
     // #################################################################################################################
 
-    public static double ____(double[] numbers) {
+    public static double average(double[] numbers) {
         double sum = 0;
         for (double number : numbers) {
             sum += number;
@@ -81,7 +79,7 @@ public class Evaluation {
     // Example 4
     // #################################################################################################################
 
-    public static long _____(int n) {
+    public static long factorial(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("number is negative");
         }
@@ -94,7 +92,7 @@ public class Evaluation {
     // Example 5
     // #################################################################################################################
 
-    public boolean ______(String text) {
+    public boolean isPalindrome(String text) {
         String clean = text.replaceAll("\\s+", "").toLowerCase();
         int length = clean.length();
         int forward = 0;
@@ -115,7 +113,7 @@ public class Evaluation {
     public <T extends Comparable<T>> T[] _______(T[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = i; j > 0 && less(array[j], array[j - 1]); j--) {
-                ___(array, j, j - 1);
+                swap(array, j, j - 1);
             }
         }
         return array;
@@ -129,7 +127,7 @@ public class Evaluation {
     // Example 7
     // #################################################################################################################
 
-    public static int ________(String s) {
+    public static int parseInt(String s) {
         if (s == null || s.length() == 0) {
             throw new NumberFormatException("null");
         }
@@ -153,7 +151,7 @@ public class Evaluation {
     // Example 8
     // #################################################################################################################
 
-    public String _________(String message, int shift) {
+    public String caesarEncode(String message, int shift) {
         StringBuilder encoded = new StringBuilder();
 
         shift %= 26;
@@ -187,7 +185,7 @@ public class Evaluation {
     // Example 9
     // #################################################################################################################
 
-    public static Optional<Node> __________(final Node node, final String name) {
+    public static Optional<Node> findFirst(final Node node, final String name) {
         if (node.getName().equals(name)) {
             return Optional.of(node);
         }
@@ -236,7 +234,7 @@ public class Evaluation {
     // Example 10
     // #################################################################################################################
 
-    public static <T extends Comparable<T>> int ____________(
+    public static <T extends Comparable<T>> int quicksort(
             T[] array,
             int left,
             int right
@@ -252,7 +250,7 @@ public class Evaluation {
                 --right;
             }
             if (left <= right) {
-                ___(array, left, right);
+                swap(array, left, right);
                 ++left;
                 --right;
             }
@@ -271,7 +269,7 @@ public class Evaluation {
             int right
     ) {
         if (left < right) {
-            int pivot = ____________(array, left, right);
+            int pivot = quicksort(array, left, right);
             doSort(array, left, pivot - 1);
             doSort(array, pivot, right);
         }
@@ -281,7 +279,7 @@ public class Evaluation {
     // Example 11
     // #################################################################################################################
 
-    public Connection ____________(String url, String user, String password) {
+    public Connection quicksort(String url, String user, String password) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -297,7 +295,7 @@ public class Evaluation {
     // Example 12
     // #################################################################################################################
 
-    public static List<String> _____________(String tokens) {
+    public static List<String> tokens(String tokens) {
         if (tokens == null) {
             return Collections.emptyList();
         }
@@ -323,7 +321,7 @@ public class Evaluation {
     // Example 13
     // #################################################################################################################
 
-    public static String ______________(String urlToRead) throws Exception {
+    public static String fetch(String urlToRead) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL(urlToRead);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -341,7 +339,7 @@ public class Evaluation {
     // Example 14
     // #################################################################################################################
 
-    public static void _______________(Session session, String toEmail, String subject, String body){
+    public static void sendEmail(Session session, String toEmail, String subject, String body){
         try
         {
             MimeMessage msg = new MimeMessage(session);
@@ -375,7 +373,7 @@ public class Evaluation {
     // Example 15
     // #################################################################################################################
 
-    public static URL[] ________________() {
+    public static URL[] getExtensions() {
         List<URL> urls = new ArrayList<>();
         String home = SystemPropertyUtils.resolvePlaceholders("${spring.home:${SPRING_HOME:.}}");
         File extDirectory = new File(new File(home, "lib"), "ext");
@@ -403,7 +401,7 @@ public class Evaluation {
         private static final String[] patterns =
                 new String[] {"yyyy-MM-dd HH:mm", "yyyy-MM-dd HH:mm z", "yyyy-MM-dd"};
 
-        public static Duration _________________(String text) {
+        public static Duration parseDuration(String text) {
             Matcher m =
                     Pattern.compile(
                                     "\\s*(?:(\\d+)\\s*(?:days?|d))?"
@@ -427,7 +425,7 @@ public class Evaluation {
     // Example 17
     // #################################################################################################################
 
-    public static String __________________(String url) throws IOException, InterruptedException {
+    public static String sendRequest(String url) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(30))
@@ -445,7 +443,7 @@ public class Evaluation {
     // #################################################################################################################
     public class ZipReader {
 
-        public static String ___________________(String path) throws IOException {
+        public static String getProjectInformationAsJson(String path) throws IOException {
 
             try(ZipFile file = new ZipFile(path)) {
                 final Enumeration<? extends ZipEntry> entries = file.entries();
@@ -486,7 +484,7 @@ public class Evaluation {
     // Example 19
     // #################################################################################################################
 
-    public static int ____________________(String[] strs) {
+    public static int indexOfDifference(String[] strs) {
         if (strs == null || strs.length <= 1) {
             return -1;
         }
@@ -548,7 +546,7 @@ public class Evaluation {
     // Example 20
     // #################################################################################################################
 
-    public static <T> T _____________________(List<T> list, List<Integer> probabilities) {
+    public static <T> T getRandomWeighted(List<T> list, List<Integer> probabilities) {
 
         if (probabilities == null || probabilities.size() <= 1 || probabilities.size() != list.size()) {
             int index = ThreadLocalRandom.current().nextInt(0, list.size());
